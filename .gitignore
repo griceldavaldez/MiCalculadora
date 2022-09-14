@@ -1,6 +1,9 @@
-.gradle
-/build/
-
+.gradle/*
+/build/*
+.idea/*
+mboehaolib/app
+local.properties
+gradle.properties
 # Ignore Gradle GUI config
 gradle-app.setting
 
