@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="activity_horizontal_margin">8dp</dimen>
+
+    <dimen name="about_textView_drawablePadding">4dp</dimen>
+
+    <dimen name="calc_btn_size">60dp</dimen>
+    <dimen name="calc_btn_textSize">24sp</dimen>
+
+    <!-- Delete? -->
+    <dimen name="calc_input_height">64dp</dimen>
+    <dimen name="calc_btn_width">88dp</dimen>
+</resources>

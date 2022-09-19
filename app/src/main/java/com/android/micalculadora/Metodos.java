@@ -1,8 +1,7 @@
 package com.android.micalculadora;
-import android.widget.EditText;
 
+import android.widget.EditText;
 import java.util.Locale;
-import com.android.micalculadora.OnResolveCallback;
 
 
 public class Metodos {
@@ -14,6 +13,7 @@ public class Metodos {
         if (operator.equals(Constantes.OPERATOR_NULL) && operation.lastIndexOf(Constantes.OPERATOR_SUB) > 0) {
             operator = Constantes.OPERATOR_SUB;
         }
+
         return operator;
     }
 
@@ -83,7 +83,6 @@ public class Metodos {
                 result = numberOne - numberTwo;
                 break;
         }
-
         return result;
     }
 
@@ -98,8 +97,8 @@ public class Metodos {
                 ultimoCaracter.equals(Constantes.OPERATOR_BETWEN) ||
                 ultimoCaracter.equals(Constantes.OPERATOR_SUM)) &&
                 (String.valueOf(s.charAt(s.length() - 2)).equals(Constantes.OPERATOR_MULTI) ||
-                penultimoCaracter.equals(Constantes.OPERATOR_BETWEN) ||
-                penultimoCaracter.equals(Constantes.OPERATOR_SUM) ||
-                penultimoCaracter.equals(Constantes.OPERATOR_SUB));
+                        penultimoCaracter.equals(Constantes.OPERATOR_BETWEN) ||
+                        penultimoCaracter.equals(Constantes.OPERATOR_SUM) ||
+                        penultimoCaracter.equals(Constantes.OPERATOR_SUB));
     }
 }

@@ -1,17 +1,16 @@
 package com.android.micalculadora;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.view.View;
-
 import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.TypedValue;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +20,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.etInput)
     EditText etInput;
     @BindView(R.id.contentMain)
-    RelativeLayout contenMain;
+    RelativeLayout contentMain;
+    @BindView(R.id.btnClear)
+    Button btnClear;
+    @BindView(R.id.btnResult)
+    Button btnResult;
 
     private boolean isEditInProgress = false;
     private int minLength;
@@ -32,6 +35,65 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        btnClear.findViewById(R.id.btnClear);
+        btnResult.findViewById(R.id.btnResult);
+
+        minLength = getResources().getInteger(R.integer.main_min_length);
+        textSize = getResources().getInteger(R.integer.main_input_textSize);
+        configEditText();
+    }
+
+
+
+    private void configEditText() {
+        etInput.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (etInput.getRight() -
+                            etInput.getCompoundDrawables()[Constantes.DRAWABLE_RIGHT].getBounds().width())) {
+                        if (etInput.length() > 0) {
+                            final int length = etInput.getText().length();
+                            etInput.getText().delete(length - 1, length);
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        etInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!isEditInProgress &&
+                        Metodos.canReplaceOperator(charSequence)) {
+                    isEditInProgress = true;
+                    etInput.getText().delete(etInput.getText().length() - 2, etInput.getText().length() - 1);
+                }
+
+                if (charSequence.length() > minLength) {
+                    etInput.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize -
+                            (((charSequence.length() - minLength) * 2) + (charSequence.length() - minLength)));
+                } else {
+                    etInput.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(etInput.getText().length() == 0){
+                    etInput.setTextSize(22f);
+                }
+                isEditInProgress = false;
+            }
+        });
+
     }
 
 
@@ -80,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
                 final String ultimoCaracter = operacion.isEmpty() ? "" :
                         operacion.substring(operacion.length() - 1);
+
                 if (operador.equals(Constantes.OPERATOR_SUB)) {
                     if (operacion.isEmpty() ||
                             (!(ultimoCaracter.equals(Constantes.OPERATOR_SUB)) &&
@@ -116,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void showMessage(int errorRes) {
-        Snackbar.make(contenMain, errorRes, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(contentMain, errorRes, Snackbar.LENGTH_SHORT).show();
     }
 
 }

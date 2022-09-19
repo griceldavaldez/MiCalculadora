@@ -11,7 +11,7 @@
     <style name="ButtonBase" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/colorPrimary</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/calc.btn.textSize</item>
+        <item name="android:textSize">@dimen/calc_btn_textSize</item>
     </style>
     <style name="ButtonMD" parent="ButtonBase">
         <item name="colorButtonNormal">@color/colorAccent</item>
